@@ -29,12 +29,13 @@ function busqueda_ajax(URL){
             image = $('<img>', {
                 src: resultado.sprites.front_default,
                 click: function() {
-                    window.location.href = 'compartir.html?id=' + resultado.id;
+                    window.location.href = 'compartir.html';
 
                 }
             });
 
-            $('.resp').append(image);
+            $('.box').append(image);
+            $('.epi').append("<span>"+resultado.name+"</span>");
             $('.resp').append("<h3>Para compartir haga click sobre la imagen del pokemon </h3>");
 
         }
@@ -76,8 +77,8 @@ function busqueda_ajax_tipo(pagina){
                             }
                         });
 
-
-                        $('.resp').append(image);
+                        $('.epi').append(imagen_pokemon.name);
+                        $('.box').append(image);
 
                     }
                 });
@@ -90,6 +91,22 @@ function busqueda_ajax_tipo(pagina){
     }, 'json');
 }
 
+function enviar(){
+    $('#enviar').click(function(e) {
+        var mailto = 'mailto:' + $('#email_dest').val();
+        mailto += '?subject=Mira este pokemon ';
+        var msg = '';
+        if ($('#nombre').val() != "") {
+            msg += $('#nombre').val();
+        }
+        msg += '&body=' + $('#email_rem').val() + ' te ha recomendado que veas esta informacion:';
+        mailto += msg + "     nombre:    " + resultado.name + "      Altura:     " + resultado.height + "     peso:      " + resultado.weight + "    imagen:     " + resultado.sprites.front_default;
+
+        window.location.assign(mailto);
+
+
+    });
+}
 
 
 
@@ -98,9 +115,11 @@ function ComprobarTipo(){
 
         $('#texto').hide();
         var tipo = '<select class="nro_tipo" id="nro"><option value="1">Normal </option><option value="2">Fighting </option><option value="3">Flying </option><option value="4">Poison </option><option value="5">Ground </option><option value="6">Rock </option><option value="7">Bug </option><option value="8">Ghost </option><option value="9">Steel </option><option value="10">Fire </option><option value="11">Water </option><option value="12">Grass </option><option value="13">Electric </option><option value="14">Psychic </option><option value="15">Ice </option><option value="16">Dragon </option><option value="17">Dark </option><option value="18">Fairy </option>';
-        $(tipo).appendTo('.inputs');
-        $('.nro_tipo').show();
+        if (document.getElementById("nro")==null){
+            $(tipo).appendTo('.inputs');
+        }
         
+
 
     });
 }
