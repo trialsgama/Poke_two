@@ -26,17 +26,22 @@ function busqueda_ajax(URL){
             $('.resp').append("Nombre de pokemon: " + resultado.name + "<br>");
             $('.resp').append("Altura: " + resultado.height + "<br>");
             $('.resp').append("Peso: " + resultado.weight + "<br>");
-            image = $('<img>', {
+            image = $("<img>", {
                 src: resultado.sprites.front_default,
-                click: function() {
-                    window.location.href = 'compartir.html';
-
+                click: function(){
+                    window.location.href = 'compartir.html?id=' + resultado.id;
+                    compartir(resultado.id);
                 }
             });
 
             $('.box').append(image);
             $('.epi').append("<span>"+resultado.name+"</span>");
             $('.resp').append("<h3>Para compartir haga click sobre la imagen del pokemon </h3>");
+           // $('.box').click(function(){
+                
+                //console.log(resultado.id);
+                //compartir(resultado.id);
+           // });
 
         }
 
@@ -78,7 +83,7 @@ function busqueda_ajax_tipo(pagina){
                         });
 
                         $('.epi').append(imagen_pokemon.name);
-                        $('.box').append(image);
+                        $('.box').append(image) ;
 
                     }
                 });
@@ -110,6 +115,38 @@ function enviar(){
 
 
 
+
+
+
+
+
+function compartir(idp){
+    var uri = "https://pokeapi.co/api/v2/pokemon/";
+    uri += idp + "/";
+    $.ajax({
+        
+        url: uri,
+        success: function(sha) {
+            console.log(sha);
+            var res = sha;
+            $('.resp').append("Nombre de pokemon: " + res.name + "<br>");
+            $('.resp').append("Altura: " + res.height + "<br>");
+            $('.resp').append("Peso: " + res.weight + "<br>");
+            image = new Image();
+            image.src = res.sprites.front_default;
+            image.onload = function() {
+                $('.resp').append(image);
+            };
+      }
+      
+     }, 'json');
+      
+     
+    
+ 
+}
+
+
 function ComprobarTipo(){
     $('#tipo').click(function(e){
 
@@ -124,6 +161,39 @@ function ComprobarTipo(){
     });
 }
 
+function cargarMapaGeo() {
+    
+    var map = new google.maps.Map(document.getElementById('posicion'), {
+        center: {
+            lat: -34.922883,
+            lng: -57.956317
+        },
+        zoom: 6
+    });
+    var infoWindow = new google.maps.InfoWindow;
+
+    // Try HTML5 geolocation.
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('Location found.');
+            infoWindow.open(map);
+            map.setCenter(pos);
+        }, function() {
+            handleLocationError(true, infoWindow, map.getCenter());
+        });
+    } else {
+        // Browser doesn't support Geolocation
+        handleLocationError(false, infoWindow, map.getCenter());
+    }
+
+}
+
 
 
 $(document).ready(function(e) {
@@ -134,10 +204,12 @@ $(document).ready(function(e) {
         } else {
             busqueda($('#busqueda').val(),$('#nro').val());
         }
-
-        
-        
+    });
+    $('#contacto').click(function(e) {
+        window.location.href = 'contacto.html';
+        cargarMapaGeo();
     });
 
+    
 
 });
