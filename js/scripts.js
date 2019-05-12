@@ -30,18 +30,15 @@ function busqueda_ajax(URL){
                 src: resultado.sprites.front_default,
                 click: function(){
                     window.location.href = 'compartir.html?id=' + resultado.id;
-                    compartir(resultado.id);
+                    
                 }
             });
 
             $('.box').append(image);
+            
             $('.epi').append("<span>"+resultado.name+"</span>");
             $('.resp').append("<h3>Para compartir haga click sobre la imagen del pokemon </h3>");
-           // $('.box').click(function(){
-                
-                //console.log(resultado.id);
-                //compartir(resultado.id);
-           // });
+         
 
         }
 
@@ -81,7 +78,7 @@ function busqueda_ajax_tipo(pagina){
 
                             }
                         });
-
+                        
                         $('.epi').append(imagen_pokemon.name);
                         $('.box').append(image) ;
 
@@ -95,57 +92,6 @@ function busqueda_ajax_tipo(pagina){
 
     }, 'json');
 }
-
-function enviar(){
-    $('#enviar').click(function(e) {
-        var mailto = 'mailto:' + $('#email_dest').val();
-        mailto += '?subject=Mira este pokemon ';
-        var msg = '';
-        if ($('#nombre').val() != "") {
-            msg += $('#nombre').val();
-        }
-        msg += '&body=' + $('#email_rem').val() + ' te ha recomendado que veas esta informacion:';
-        mailto += msg + "     nombre:    " + resultado.name + "      Altura:     " + resultado.height + "     peso:      " + resultado.weight + "    imagen:     " + resultado.sprites.front_default;
-
-        window.location.assign(mailto);
-
-
-    });
-}
-
-
-
-
-
-
-
-
-function compartir(idp){
-    var uri = "https://pokeapi.co/api/v2/pokemon/";
-    uri += idp + "/";
-    $.ajax({
-        
-        url: uri,
-        success: function(sha) {
-            console.log(sha);
-            var res = sha;
-            $('.resp').append("Nombre de pokemon: " + res.name + "<br>");
-            $('.resp').append("Altura: " + res.height + "<br>");
-            $('.resp').append("Peso: " + res.weight + "<br>");
-            image = new Image();
-            image.src = res.sprites.front_default;
-            image.onload = function() {
-                $('.resp').append(image);
-            };
-      }
-      
-     }, 'json');
-      
-     
-    
- 
-}
-
 
 function ComprobarTipo(){
     $('#tipo').click(function(e){
@@ -197,7 +143,9 @@ function cargarMapaGeo() {
 
 
 $(document).ready(function(e) {
-    ComprobarTipo();
+    $('#tipo').click(function(e) {
+        ComprobarTipo();
+    });
     $('#buscar').click(function(e){
         if($('#busqueda').val()=="id" || $('#busqueda').val()=="nombre"){
             busqueda($('#busqueda').val(),$('#texto').val());
