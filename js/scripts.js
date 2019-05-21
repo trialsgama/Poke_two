@@ -18,6 +18,7 @@ function busqueda(valor,texto){
 }
 
 function busqueda_ajax(URL){
+   
     $.ajax({
         url: URL,
         success: function(data) {
@@ -34,19 +35,22 @@ function busqueda_ajax(URL){
                 }
             });
 
-            $('.box').append(image);
+            $('.epi').append(image);
             
-            $('.epi').append("<span>"+resultado.name+"</span>");
+            $('.box').append("<span>"+resultado.name+"</span>");
             $('.resp').append("<h3>Para compartir haga click sobre la imagen del pokemon </h3>");
-         
+            
 
         }
 
     }, 'json');
+    historial();
+   // reset();
 }
 
 
 function busqueda_ajax_tipo(pagina){
+    
     $.ajax({
         url: pagina,
         success: function(data) {
@@ -66,6 +70,8 @@ function busqueda_ajax_tipo(pagina){
             }
             $('.resp').append("Son pokemons de este tipo:<br>");
             for (j = 0; j < 10; j++) {
+                var div= "<div id=pokemons />";
+                $('.resp').append(div); 
                 $('.resp').append((j + 1) + "-" + resultado.pokemon[j].pokemon.name + "<br>");
                 $.ajax({
                     url: resultado.pokemon[j].pokemon.url,
@@ -78,10 +84,14 @@ function busqueda_ajax_tipo(pagina){
 
                             }
                         });
-                        
-                        $('.epi').append(imagen_pokemon.name);
-                        $('.box').append(image) ;
-
+                        var art = "<article id="+ imagen_pokemon.id +"/>";
+                        $('#pokemons').append(art);
+                       
+                        var spn = "<span id=span" + imagen_pokemon.id + "/>";
+                        $("#"+ imagen_pokemon.id +"").append(spn) ;
+                        $("#span"+ imagen_pokemon.id +"").append(imagen_pokemon.name) ;
+                        $("#"+ imagen_pokemon.id +"").append(image);
+                       
                     }
                 });
 
@@ -91,10 +101,12 @@ function busqueda_ajax_tipo(pagina){
         }
 
     }, 'json');
+     historial();
+     reset();
 }
 
 function ComprobarTipo(){
-    $('#tipo').click(function(e){
+   
 
         $('#texto').hide();
         var tipo = '<select class="nro_tipo" id="nro"><option value="1">Normal </option><option value="2">Fighting </option><option value="3">Flying </option><option value="4">Poison </option><option value="5">Ground </option><option value="6">Rock </option><option value="7">Bug </option><option value="8">Ghost </option><option value="9">Steel </option><option value="10">Fire </option><option value="11">Water </option><option value="12">Grass </option><option value="13">Electric </option><option value="14">Psychic </option><option value="15">Ice </option><option value="16">Dragon </option><option value="17">Dark </option><option value="18">Fairy </option>';
@@ -104,7 +116,7 @@ function ComprobarTipo(){
         
 
 
-    });
+   
 }
 
 function cargarMapaGeo() {
@@ -140,6 +152,37 @@ function cargarMapaGeo() {
 
 }
 
+function historial(){
+    var boton = '<button id="boton_busqueda" type="submit">Ver historial</button>';
+    if (document.getElementById("boton_busqueda")==null){
+        $(boton).appendTo('.historical');
+    }
+     
+                $('.historial').hide();
+                localStorage.setItem("Texto", $('#texto').val());
+                var texto = localStorage.getItem("Texto");
+                //var list = "<ol>";
+                //$('.historial').append(list);
+                $('.historial').append("<li> " + texto + "</li>");
+                //var fin = "</ol>";
+                //$('.historial').append(fin);
+                $('#boton_busqueda').click(function(e) {
+                    $('.historial').show();
+                });
+}
+
+function reset(){
+var boton_reset = '<button id="boton_reset" type="submit">Reset</button>';
+if (document.getElementById("boton_reset")==null){
+    $(boton_reset).appendTo('.historical');
+}
+
+$('#boton_reset').click(function(e) {
+    $('.resp').empty();
+    $('.buscar_mas').hide();
+    $('.historial').hide();
+});
+}
 
 
 $(document).ready(function(e) {
@@ -149,14 +192,17 @@ $(document).ready(function(e) {
     $('#buscar').click(function(e){
         if($('#busqueda').val()=="id" || $('#busqueda').val()=="nombre"){
             busqueda($('#busqueda').val(),$('#texto').val());
+         
         } else {
             busqueda($('#busqueda').val(),$('#nro').val());
+         
         }
     });
     $('#contacto').click(function(e) {
         window.location.href = 'contacto.html';
         cargarMapaGeo();
     });
+   
 
     
 

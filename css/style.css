@@ -94,10 +94,17 @@ div.resp {
     margin-top: 0px;
 }
 
-.box {
+image {
+    float: left;
+}
+
+.epi {
     text-align: center;
 }
 
+.box {
+    padding: 5px;
+}
 /* Moviles en horizontal o tablets en vertical */
 
 @media (min-width: 768px) {
