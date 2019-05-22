@@ -14,6 +14,37 @@ html {
 	
 }
 
+#cont {
+    margin: 0px;
+    background-color: darkgoldenrod;
+    background-image:url(./zapdos.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-blend-mode: soft-light;
+    font-family: 'Open Sans', Roboto;
+    width: 100%;
+    display: block;
+    text-align: center; 
+    background-size: cover;
+    background-attachment: fixed;
+	
+}
+
+#comp {
+    margin: 0px;
+    background-color: darksalmon;
+    background-image:url(./mewtwo.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-blend-mode: hard-light;
+    font-family: 'Open Sans', Roboto;
+    width: 100%;
+    display: block;
+    text-align: center; 
+    background-size: cover;
+    background-attachment: fixed;
+}
+
 li {
     vertical-align: auto;
 }
