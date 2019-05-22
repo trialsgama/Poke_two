@@ -55,24 +55,46 @@ function busqueda_ajax_tipo(pagina){
         url: pagina,
         success: function(data) {
             var resultado = data;
+            var divcentral = "<div id=central></div>";
+            $('.resp').append(divcentral);
+            var izq = "<div id=izq></div>";
+            $('#central').append(izq);
+            $('#izq').append("<span>Recibe doble daño de pokemons de tipo:</span>");
+            var cen = "<div id=cen></div>";
+            $('#central').append(cen);
+            $('#cen').append("<span>Causa doble daño de pokemons de tipo:</span>");
+            var der = "<div id=der></div>";
+            $('#central').append(der);
+            $('#der').append("<span>Movimientos:</span>");
+            var listaizq = "<div id=listaizq></div>";
+            $('#izq').append(listaizq);
+            var listacen = "<div id=listacen></div>";
+            $('#cen').append(listacen);
+            var listader = "<div id=listader></div>";
+            $('#der').append(listader);
+            
+            for (i = 0; i < resultado.damage_relations.double_damage_from.length; i++) {
+                
 
-            $('.resp').append("Recibe doble daño de pokemons de tipo:<br>");
-            for (i = 0; i < resultado.damage_relations.double_damage_from.length; i++) {
-                $('.resp').append((i + 1) + "-" + resultado.damage_relations.double_damage_from[i].name + "<br>");
+                $('#listaizq').append( "<li>" + resultado.damage_relations.double_damage_from[i].name + "</li>");
             }
-            $('.resp').append("Causa doble daño de pokemons de tipo:<br>");
+            
             for (i = 0; i < resultado.damage_relations.double_damage_from.length; i++) {
-                $('.resp').append((i + 1) + "-" + resultado.damage_relations.double_damage_to[i].name + "<br>");
+                
+                $('#listacen').append( "<li>" + resultado.damage_relations.double_damage_to[i].name + "</li>");
+                
             }
-            $('.resp').append("Movimientos:<br>");
+            
             for (i = 0; i < 10; i++) {
-                $('.resp').append((i + 1) + "-" + resultado.moves[i].name + "<br>");
+                
+                $('#listader').append( "<li>" + resultado.moves[i].name + "</li>");
+                
             }
-            $('.resp').append("Son pokemons de este tipo:<br>");
+            
             for (j = 0; j < 10; j++) {
                 var div= "<div id=pokemons />";
                 $('.resp').append(div); 
-                $('.resp').append((j + 1) + "-" + resultado.pokemon[j].pokemon.name + "<br>");
+                
                 $.ajax({
                     url: resultado.pokemon[j].pokemon.url,
                     success: function(info) {
@@ -87,10 +109,12 @@ function busqueda_ajax_tipo(pagina){
                         var art = "<article id="+ imagen_pokemon.id +"/>";
                         $('#pokemons').append(art);
                        
-                        var spn = "<span id=span" + imagen_pokemon.id + "/>";
+                        var spn = "<div id=nompoke" + imagen_pokemon.id + "/>";
                         $("#"+ imagen_pokemon.id +"").append(spn) ;
-                        $("#span"+ imagen_pokemon.id +"").append(imagen_pokemon.name) ;
+                       
                         $("#"+ imagen_pokemon.id +"").append(image);
+
+                         $("#nompoke"+ imagen_pokemon.id +"").append(imagen_pokemon.name) ;
                        
                     }
                 });
