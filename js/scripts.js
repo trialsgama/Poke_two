@@ -2,10 +2,6 @@
 function busqueda(valor,texto){
     var uri= "https://pokeapi.co/api/v2";
     switch(valor){
-        case "id":
-                 uri += "/pokemon/" + texto + "/";
-                 busqueda_ajax(uri);
-                 break;
         case  "nombre":
                  uri += "/pokemon/" + texto + "/";
                  busqueda_ajax(uri);
@@ -24,9 +20,13 @@ function busqueda_ajax(URL){
         success: function(data) {
 
             var resultado = data;
-            $('.resp').append("<br> Nombre de pokemon: " + resultado.name + "<br>");
-            $('.resp').append("Altura: " + resultado.height + "<br>");
-            $('.resp').append("Peso: " + resultado.weight + "<br>");
+            $('.resp').append("<br><strong> Nombre de pokemon: " + resultado.name + "</strong><br>");
+            $('.resp').append("<strong>Altura: " + resultado.height + "</strong><br>");
+            $('.resp').append("<strong>Peso: " + resultado.weight + "</strong><br>");
+            $('.resp').append("<strong>Experiencia base: " + resultado.base_experience + "</strong><br>");
+            for (i = 0; i < resultado.abilities.length; i++) {
+                $('.resp').append("<strong>Habilidad: " + resultado.abilities[i].ability.name + "</strong><br>");
+                }
             image = $("<img>", {
                 src: resultado.sprites.front_default,
                 click: function(){
@@ -39,7 +39,7 @@ function busqueda_ajax(URL){
             $('#pokemon').append(image);
             var span2 = "<div id=nompoke/>";
             $("#pokemon").append(span2) ;
-            $('#nompoke').append("<span>"+resultado.name+"</span>");
+            $('#nompoke').append("<span><strong>"+resultado.name+"</strong></span>");
             $('#nompoke').click(function(e){
                 window.location.href = 'detalle.html?id=' + resultado.id;
             });
@@ -66,13 +66,13 @@ function busqueda_ajax_tipo(pagina){
             $('.resp').append(divcentral);
             var izq = "<div id=izq></div>";
             $('#central').append(izq);
-            $('#izq').append("<span>Recibe doble daño de pokemons de tipo:</span>");
-            var cen = "<div id=cen></div>";
-            $('#central').append(cen);
-            $('#cen').append("<span>Causa doble daño de pokemons de tipo:</span>");
-            var der = "<div id=der></div>";
-            $('#central').append(der);
-            $('#der').append("<span>Movimientos:</span>");
+            $('#izq').append("<span><h2>Recibe doble daño de pokemons de tipo:</h2></span>");
+                var cen = "<div id=cen></div>";
+                $('#central').append(cen);
+                $('#cen').append("<span><h2>Causa doble daño de pokemons de tipo:</h2></span>");
+                var der = "<div id=der></div>";
+                $('#central').append(der);
+                $('#der').append("<span><h2>Movimientos:</h2></span>");
             var listaizq = "<div id=listaizq></div>";
             $('#izq').append(listaizq);
             var listacen = "<div id=listacen></div>";
@@ -103,18 +103,18 @@ function busqueda_ajax_tipo(pagina){
                 for (i = 0; i < resultado.damage_relations.double_damage_from.length; i++) {
                 
 
-                    $('#listaizq').append( "<li>" + resultado.damage_relations.double_damage_from[i].name + "</li>");
+                    $('#listaizq').append( "<li><strong>" + resultado.damage_relations.double_damage_from[i].name + "</strong></li>");
                 }
                 
                 for (i = 0; i < resultado.damage_relations.double_damage_from.length; i++) {
                     
-                    $('#listacen').append( "<li>" + resultado.damage_relations.double_damage_to[i].name + "</li>");
+                    $('#listacen').append( "<li><strong>" + resultado.damage_relations.double_damage_to[i].name + "</strong></li>");
                     
                 }
                 
                 for (i = 0; i < 15; i++) {
                     
-                    $('#listader').append( "<li>" + resultado.moves[i].name + "</li>");
+                    $('#listader').append( "<li><strong>" + resultado.moves[i].name + "</strong></li>");
                     
                 }
                 
@@ -141,7 +141,7 @@ function busqueda_ajax_tipo(pagina){
                            
                             $("#"+ imagen_pokemon.id +"").append(image);
     
-                             $("#nompoke"+ imagen_pokemon.id +"").append(imagen_pokemon.name) ;
+                             $("#nompoke"+ imagen_pokemon.id +"").append("<strong>" +imagen_pokemon.name + "</strong>") ;
                              $("#nompoke"+ imagen_pokemon.id +"").click(function(e){
                                 window.location.href = 'detalle.html?id=' + imagen_pokemon.id;
                             });
@@ -155,18 +155,18 @@ function busqueda_ajax_tipo(pagina){
             for (i = 0; i < resultado.damage_relations.double_damage_from.length; i++) {
                 
 
-                $('#listaizq').append( "<li>" + resultado.damage_relations.double_damage_from[i].name + "</li>");
+                $('#listaizq').append( "<li><strong>" + resultado.damage_relations.double_damage_from[i].name + "</strong></li>");
             }
             
             for (i = 0; i < resultado.damage_relations.double_damage_from.length; i++) {
                 
-                $('#listacen').append( "<li>" + resultado.damage_relations.double_damage_to[i].name + "</li>");
+                $('#listacen').append( "<li><strong>" + resultado.damage_relations.double_damage_to[i].name + "</strong></li>");
                 
             }
             
             for (i = 0; i < 10; i++) {
                 
-                $('#listader').append( "<li>" + resultado.moves[i].name + "</li>");
+                $('#listader').append( "<li><strong>" + resultado.moves[i].name + "</strong></li>");
                 
             }
             
@@ -193,7 +193,7 @@ function busqueda_ajax_tipo(pagina){
                        
                         $("#"+ imagen_pokemon.id +"").append(image);
 
-                         $("#nompoke"+ imagen_pokemon.id +"").append(imagen_pokemon.name) ;
+                         $("#nompoke"+ imagen_pokemon.id +"").append("<strong>" +imagen_pokemon.name + "</strong>") ;
                          $("#nompoke"+ imagen_pokemon.id +"").click(function(e){
                             window.location.href = 'detalle.html?id=' + imagen_pokemon.id;
                         });
@@ -210,7 +210,10 @@ function busqueda_ajax_tipo(pagina){
     }, 'json');
     
      historial();
-     buscarMas(); 
+     buscarMas();
+    
+    
+    
    
 }
 
@@ -222,7 +225,9 @@ function ComprobarTipo(){
         if (document.getElementById("nro")==null){
             
             var tipo = '<select class="nro_tipo" id="nro"><option value="1">Normal </option><option value="2">Fighting </option><option value="3">Flying </option><option value="4">Poison </option><option value="5">Ground </option><option value="6">Rock </option><option value="7">Bug </option><option value="8">Ghost </option><option value="9">Steel </option><option value="10">Fire </option><option value="11">Water </option><option value="12">Grass </option><option value="13">Electric </option><option value="14">Psychic </option><option value="15">Ice </option><option value="16">Dragon </option><option value="17">Dark </option><option value="18">Fairy </option>';
+           
             $(tipo).appendTo('.inputs');
+         
             
         } else {
             $('#nro').show();
@@ -233,38 +238,6 @@ function ComprobarTipo(){
    
 }
 
-function cargarMapaGeo() {
-    
-    var map = new google.maps.Map(document.getElementById('posicion'), {
-        center: {
-            lat: -34.922883,
-            lng: -57.956317
-        },
-        zoom: 6
-    });
-    var infoWindow = new google.maps.InfoWindow;
-
-    // Try HTML5 geolocation.
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            var pos = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            };
-
-            infoWindow.setPosition(pos);
-            infoWindow.setContent('Location found.');
-            infoWindow.open(map);
-            map.setCenter(pos);
-        }, function() {
-            handleLocationError(true, infoWindow, map.getCenter());
-        });
-    } else {
-        // Browser doesn't support Geolocation
-        handleLocationError(false, infoWindow, map.getCenter());
-    }
-
-}
 
 function historial(){
     var boton = '<button id="boton_busqueda" >Ver historial</button>';
@@ -274,10 +247,13 @@ function historial(){
      
                 $('.historial').hide();
                 localStorage.setItem("Texto", $('#texto').val());
+                localStorage.setItem("Numero", $('#nro').val());
                 var texto = localStorage.getItem("Texto");
+                var numero = localStorage.getItem("Numero");
                 //var list = "<ol>";
                 //$('.historial').append(list);
                 $('.historial').append("<li> " + texto + "</li>");
+                $('.historial').append("<li> " + numero + "</li>");
                 //var fin = "</ol>";
                 //$('.historial').append(fin);
                 $('#boton_busqueda').click(function(e) {
@@ -290,9 +266,14 @@ function resetear(){
 }
 
 function habilitar(){
+    
     $('#texto').show();
+    $('#texto').val('');
     $('#nro').hide();
+    $('#buscar_mas').hide();
 }
+
+
 
 function validarNombre(nom) {
     var reg =/^[a-zA-Z]/;
@@ -335,13 +316,14 @@ $(document).ready(function(e) {
          
         } else {
             resetear();
+            $('#buscar_mas').show();
             busqueda($('#busqueda').val(),$('#nro').val());
          
         }
     });
     $('#contacto').click(function(e) {
         window.location.href = 'contacto.html';
-        cargarMapaGeo();
+        
     });
    
 
