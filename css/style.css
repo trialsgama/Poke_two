@@ -45,6 +45,22 @@ html {
     background-attachment: fixed;
 }
 
+#deta {
+    margin: 0px;
+    background-color: darkgreen;
+    background-image:url(./entei.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-blend-mode: soft-light;
+    font-family: 'Open Sans', Roboto;
+    width: 100%;
+    display: block;
+    text-align: center; 
+    background-size: cover;
+    background-attachment: fixed;
+	
+}
+
 li {
     vertical-align: auto;
 }
@@ -108,26 +124,16 @@ div [id*="nompoke"]{
 }
 
 
-.contenido,
-.fondo,
-div.historical,
-div.resp,
-div.historial {
+
+.historial,
+div.resp {
     text-align: center;
     color: #ffffff;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 
 }
 
-#boton_busqueda {
-    margin: 0 auto;
-    font-family: 'Open Sans', Roboto;
-    padding: 1%;
-    border-radius: 2px;
-    border: 0px;
-    background-color: #ffffff;
-    color: #000000;
-    margin: 0%;
-}
+
 
 .nro_tipo {
     float: unset;
@@ -144,11 +150,21 @@ div.historial {
     border: 1px;
 }
 
+#boton_busqueda,
+button {
+    font-family: 'Open Sans', Roboto;
+    padding: 1%;
+    border-radius: 2px;
+    border: 2px;
+    background-color: blue;
+    color: white;
+    margin: 0%;
+}
+
 
 #buscar,
 #volver,
-#enviar,
-button {
+#enviar{
     font-family: 'Open Sans', Roboto;
     padding: 0.5%;
     border-radius: 2px;
@@ -158,9 +174,7 @@ button {
     margin: 0%;
 }
 
-.historial button {
-    margin-left: 3%;
-}
+
 
 footer {
     position: fixed;
@@ -174,16 +188,6 @@ footer {
   }
 
 
-
-
-image {
-    float: left;
-}
-
-.epi {
-    text-align: center;
-}
-
 .box {
     padding: 5px;
 }
@@ -196,10 +200,7 @@ image {
     
  	
 	
-    button {
-        padding: 1%;
-        margin: 1%;
-    }
+
    
     
    
