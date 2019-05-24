@@ -1,5 +1,11 @@
 function enviar(resultado){
     $('#enviar').click(function(e) {
+
+        
+        if (validarMail($('#email_rem').val())==false || validarMail($('#email_dest').val())==false ) {
+            alert("No se puede enviar el mail");
+            return 0;
+        }
         var mailto = 'mailto:' + $('#email_dest').val();
         mailto += '?subject=Mira este pokemon ';
         var msg = '';
@@ -13,6 +19,18 @@ function enviar(resultado){
 
 
     });
+}
+
+function validarMail(correo) {
+    var reg =/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3,4})+$/;
+    if (reg.test(correo)) {
+        console.log("Correo validado");
+    } else {
+        alert("La dirección de correo " + correo + "es incorrecta"); 
+        return false;  
+    }
+
+
 }
 
 function buscar(uri){
@@ -42,7 +60,8 @@ $(document).ready(function(e) {
         var uri = "https://pokeapi.co/api/v2/pokemon/";
         uri += getParameterByName("id") + "/";
         buscar(uri);
-    }
+    }    
+    
     $('#contacto').click(function(e) {
         window.location.href = 'contacto.html';
     });
